@@ -1,24 +1,36 @@
 version: '2'
 services:
-  web:
-    image: odoo:14
+  Odoo:
+    image: odoo:15
+    container_name: Odoo
     depends_on:
       - db
     ports:
       - "8069:8069"
     volumes:
-      - odoo-web-data:/var/lib/odoo
-      - /home/Odoo14/config:/etc/odoo
-      - /home/Odoo14/addons:/mnt/extra-addons
+      - ./data15:/var/lib/odoo
+      - ./config15:/etc/odoo
+      - ./addons15:/mnt/extra-addons
+  Odoo9:
+    image: odoo:9
+    container_name: OdooDC
+    depends_on:
+      - db
+    ports:
+      - "8070:8069"
+    volumes:
+      - ./data9:/var/lib/odoo
+      - ./config9:/etc/odoo
+      - ./addons19:/mnt/extra-addons
   db:
-    image: postgres:10
+    image: postgres:13
+    container_name: Postgres13
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - ./data:/var/lib/postgresql/data/pgdata
 volumes:
-  odoo-web-data:
   odoo-db-data:
